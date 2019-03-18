@@ -1,0 +1,385 @@
+@import './reset.css'
+@import "./mixins.styl"
+$color = #63a35c;
+body
+  position relative
+  background-color #eee
+  #main
+    position relative
+    width 100%
+    height 100%
+    .show
+      display block !important
+    section
+      position absolute
+      left 0
+      top 0
+      display none
+      width 100%
+      height 100%
+      .takeout-header, .search-header, .order-header, .mine-header
+        display flex
+        height 50px
+        color #fff
+        justify-content center
+        align-items center
+        background-color $color
+        .search
+          flex 1
+          font-size 24px
+          margin-left 10px
+        h3
+          flex 4
+          font-size 18px
+          margin 0 20px
+          text-align center
+        .login-register
+          flex 2
+          display flex
+          font-size 14px
+          a
+            font-size 14px
+            color #fff
+      .swiper-container
+        width 100%
+        height 200px
+        background-color #fff
+        margin-bottom 10px
+        clearFix()
+        .swiper-pagination-bullet-active
+          background-color $color
+        li
+          float left
+          display flex
+          justify-content center
+          flex-direction column
+          align-items center
+          height 45%
+          width 25%
+          img
+            width 50px
+            height 50px
+          span
+            font-size 12px
+      .store-list
+        width 100%
+        background-color #fff
+        clearFix()
+        .store-list-top
+          padding 10px 0
+          height 20px
+          line-height 20px
+          color #aaa
+          span
+            float left
+            font-size 14px
+            margin 0 5px 0 0
+            &.icon
+              margin-left 10px
+              color #000
+
+        .store-list-main
+          display flex
+          width 100%
+          padding 15px 0
+          clearFix()
+          img
+            width 75px
+            height 75px
+          .shop-detail
+            flex 1
+            .shop-detail-top
+              //display flex
+              padding 0 10px
+              span
+                float left
+                font-size 12px
+                font-weight bold
+                background-color yellow
+                padding 2px
+              a
+                float left
+                width 100px
+                margin-left 5px
+                h3
+                  color #666
+                  font-weight 700
+              ul
+                float right
+                li
+                  float left
+                  font-size 10px
+                  width 10px
+                  height 10px
+                  border 1px solid #eee
+                  margin-left 3px
+            .shop-detail-middle
+              padding 15px 10px 10px 10px
+              clearFix()
+              ul
+                float left
+                .star-item
+                  float left
+                  width 10px
+                  height 10px
+                  background-size 10px 10px
+                  &.on-star
+                    bg_image(star_on)
+                  &.half-star
+                    bg_image(star_half)
+                  &.off-star
+                    bg_image(star_off)
+              span
+                font-size 10px
+              span:nth-of-type(1)
+                float left
+                color #f90
+                margin 0 5px
+              span:nth-of-type(2)
+                float left
+              span:nth-of-type(4)
+                float right
+                background-color $color
+                color #fff
+                border 1px solid $color
+                border-radius 2px
+              span:nth-of-type(3)
+                float right
+                background-color #fff
+                color #55a532
+                border 1px solid $color
+                margin-left 5px
+            .shop-detail-bottom
+              padding 0 10px
+              span
+                font-size 10px
+      .search-main
+        height 50px
+        background-color #fff
+        padding 5px 0px 5px 10px
+        display flex
+        align-items center
+        input
+          flex 8
+          height 35px
+          background-color #eee
+          outline none
+        .submitBtn
+          flex 2
+          height 35px
+          margin 0 10px
+          outline none
+          border none
+          border-radius 3px
+          background-color $color
+      .order-main
+        display flex
+        flex-direction column
+        justify-content center
+        align-items center
+        width 100%
+        height 100%
+        background-image url("../images/others/person.png")
+        background-repeat no-repeat
+        background-position center top
+        .loginBtn
+          height 35px
+          width 100px
+          color #fff
+          margin-top 10px
+          outline none
+          border none
+          border-radius 3px
+          background-color $color
+      .mine-main
+        width 100%
+        height 100%
+        .mine-main-login
+          top-border-1px(#fff)
+          display flex
+          align-items center
+          color #fff
+          height 100px
+          background-color $color
+          padding 0 10px
+          span:nth-child(1)
+            flex 2
+            background #e4e4e4
+            margin-right 20px
+            border-radius 50%
+            overflow hidden
+            i
+              font-size 68px
+              color #aaa
+          div
+            flex 7
+            h3
+              font-weight bold
+              margin-bottom 10px
+            span:nth-child(2)
+              display flex
+              align-items center
+              margin-left -15px
+              span
+                font-size 14px
+                margin-left -12px
+              i
+                font-size 30px
+
+          span:nth-child(3)
+            flex 1
+            font-size 12px
+            text-align right
+        .mine-info-top
+          height 80px
+          width 100%
+          display flex
+          li
+            float left
+            height 100%
+            width 33%
+            background-color #fff
+            text-align center
+            div
+              display flex
+              justify-content center
+              font-size 14px
+              align-items baseline
+              margin 20px 0 10px 0
+              span
+                font-size 30px
+                font-weight bold
+            a
+              font-size 14px
+              color #666
+          li:nth-of-type(1)
+            span
+              color orange
+          li:nth-of-type(2)
+            margin 0 1px
+            span
+              color red
+          li:nth-of-type(3)
+            span
+              color yellowgreen
+        .mine-info-bottom
+          margin-top 10px
+          li
+            height 50px
+            line-height 50px
+            background-color #fff
+            padding 0 10px
+            bottom-border-1px(#eee)
+            i
+              float left
+              font-size 30px
+            a
+              float left
+              font-size 14px
+            span
+              float right
+              font-size 10px
+          li:nth-child(1)
+            i
+              color $color
+          li:nth-child(2)
+            i
+              color #ff5f3e
+          li:nth-child(3)
+            i
+              font-size 34px
+              color #f90
+          li:nth-child(4)
+            margin-top 10px
+            i
+              color $color
+    .login-register-page
+      height 100%
+      width 100%
+      position relative
+      i
+        position absolute
+        left 5px
+        top 10px
+      .login-main
+        text-align center
+        padding 60px 20px 0
+        background-color #fff
+        height 100%
+        h1
+          font-size 36px
+          color $color
+          font-weight bold
+        ul
+          display flex
+          justify-content center
+          margin-top 20px
+          li
+            font-size 14px
+            font-weight bold
+            padding 10px 0
+            margin-right 20px
+            &.active
+              color: $color
+              border-bottom 2px solid $color
+        .login-by-message, .login-by-password
+          display none
+          input
+            width 90%
+            height 35px
+            border 1px solid #eee
+            border-radius 5px
+            padding 5px 10px
+            margin-top 10px
+            margin-bottom 10px
+            outline none
+          p
+            width 100%
+            height 50px
+            line-height 20px
+            font-size 14px
+            text-align left
+            a
+              color $color
+              font-size 14px
+        button
+          outline none
+          border none
+          width 100%
+          height 40px
+          color #fff
+          border-radius 5px
+          background-color $color
+          margin-top 30px
+          margin-bottom 10px
+        a
+          font-size 12px
+          color #bbb
+  .footer-list
+    height 50px
+    margin-top -50px
+    background-color #fff
+    top-border-1px(#eee)
+    ul
+      position fixed
+      left 0
+      bottom 0
+      display flex
+      align-items center
+      height 50px
+      width 100%
+      .active
+        color $color
+      .footer-item
+        display flex
+        flex-direction column
+        justify-content space-around
+        align-items center
+        width 100%
+        span
+          font-size 12px
+        .iconfont
+          font-size 20px
+
+
+

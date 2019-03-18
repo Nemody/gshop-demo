@@ -1,0 +1,8 @@
+demos
+build
+playground
+node_modules
+dist
+package.js
+src/swiper.js
+*.js
