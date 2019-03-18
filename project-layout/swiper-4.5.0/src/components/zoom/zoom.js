@@ -123,7 +123,7 @@ const Zoom = {
         image.startY = -image.startY;
       }
     }
-    // Define if we need image drag
+    // Define if we need images drag
     const scaledWidth = image.width * zoom.scale;
     const scaledHeight = image.height * zoom.scale;
 
@@ -220,7 +220,7 @@ const Zoom = {
     image.currentX = newPositionX;
     image.currentY = newPositionY;
 
-    // Define if we need image drag
+    // Define if we need images drag
     const scaledWidth = image.width * zoom.scale;
     const scaledHeight = image.height * zoom.scale;
     image.minX = Math.min(((gesture.slideWidth / 2) - (scaledWidth / 2)), 0);
@@ -377,7 +377,7 @@ const Zoom = {
 
     const passiveListener = swiper.touchEvents.start === 'touchstart' && Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
 
-    // Scale image
+    // Scale images
     if (Support.gestures) {
       swiper.$wrapperEl.on('gesturestart', '.swiper-slide', zoom.onGestureStart, passiveListener);
       swiper.$wrapperEl.on('gesturechange', '.swiper-slide', zoom.onGestureChange, passiveListener);
@@ -388,7 +388,7 @@ const Zoom = {
       swiper.$wrapperEl.on(swiper.touchEvents.end, '.swiper-slide', zoom.onGestureEnd, passiveListener);
     }
 
-    // Move image
+    // Move images
     swiper.$wrapperEl.on(swiper.touchEvents.move, `.${swiper.params.zoom.containerClass}`, zoom.onTouchMove);
   },
   disable() {
@@ -400,7 +400,7 @@ const Zoom = {
 
     const passiveListener = swiper.touchEvents.start === 'touchstart' && Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
 
-    // Scale image
+    // Scale images
     if (Support.gestures) {
       swiper.$wrapperEl.off('gesturestart', '.swiper-slide', zoom.onGestureStart, passiveListener);
       swiper.$wrapperEl.off('gesturechange', '.swiper-slide', zoom.onGestureChange, passiveListener);
@@ -411,7 +411,7 @@ const Zoom = {
       swiper.$wrapperEl.off(swiper.touchEvents.end, '.swiper-slide', zoom.onGestureEnd, passiveListener);
     }
 
-    // Move image
+    // Move images
     swiper.$wrapperEl.off(swiper.touchEvents.move, `.${swiper.params.zoom.containerClass}`, zoom.onTouchMove);
   },
 };

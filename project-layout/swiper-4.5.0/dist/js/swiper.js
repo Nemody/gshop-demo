@@ -3478,7 +3478,7 @@
         onReady();
       }
     } else {
-      // image already loaded...
+      // images already loaded...
       onReady();
     }
   }
@@ -6019,7 +6019,7 @@
           image.startY = -image.startY;
         }
       }
-      // Define if we need image drag
+      // Define if we need images drag
       var scaledWidth = image.width * zoom.scale;
       var scaledHeight = image.height * zoom.scale;
 
@@ -6118,7 +6118,7 @@
       image.currentX = newPositionX;
       image.currentY = newPositionY;
 
-      // Define if we need image drag
+      // Define if we need images drag
       var scaledWidth = image.width * zoom.scale;
       var scaledHeight = image.height * zoom.scale;
       image.minX = Math.min(((gesture.slideWidth / 2) - (scaledWidth / 2)), 0);
@@ -6276,7 +6276,7 @@
 
       var passiveListener = swiper.touchEvents.start === 'touchstart' && Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
 
-      // Scale image
+      // Scale images
       if (Support.gestures) {
         swiper.$wrapperEl.on('gesturestart', '.swiper-slide', zoom.onGestureStart, passiveListener);
         swiper.$wrapperEl.on('gesturechange', '.swiper-slide', zoom.onGestureChange, passiveListener);
@@ -6287,7 +6287,7 @@
         swiper.$wrapperEl.on(swiper.touchEvents.end, '.swiper-slide', zoom.onGestureEnd, passiveListener);
       }
 
-      // Move image
+      // Move images
       swiper.$wrapperEl.on(swiper.touchEvents.move, ("." + (swiper.params.zoom.containerClass)), zoom.onTouchMove);
     },
     disable: function disable() {
@@ -6299,7 +6299,7 @@
 
       var passiveListener = swiper.touchEvents.start === 'touchstart' && Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
 
-      // Scale image
+      // Scale images
       if (Support.gestures) {
         swiper.$wrapperEl.off('gesturestart', '.swiper-slide', zoom.onGestureStart, passiveListener);
         swiper.$wrapperEl.off('gesturechange', '.swiper-slide', zoom.onGestureChange, passiveListener);
@@ -6310,7 +6310,7 @@
         swiper.$wrapperEl.off(swiper.touchEvents.end, '.swiper-slide', zoom.onGestureEnd, passiveListener);
       }
 
-      // Move image
+      // Move images
       swiper.$wrapperEl.off(swiper.touchEvents.move, ("." + (swiper.params.zoom.containerClass)), zoom.onTouchMove);
     },
   };
@@ -6457,7 +6457,7 @@
         swiper.loadImage($imageEl[0], (src || background), srcset, sizes, false, function () {
           if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params) || swiper.destroyed) { return; }
           if (background) {
-            $imageEl.css('background-image', ("url(\"" + background + "\")"));
+            $imageEl.css('background-images', ("url(\"" + background + "\")"));
             $imageEl.removeAttr('data-background');
           } else {
             if (srcset) {

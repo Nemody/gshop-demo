@@ -1,11 +1,7 @@
 <template>
   <section class="profile">
-    <header class="header">
-      <a class="header_title">
-        <span class="header_title_text">我的</span>
-      </a>
-    </header>
-    <section class="profile-number">
+    <Header title="个人中心" />
+    <section class="profile-number" @click="goto('/login')">
       <a href="javascript:" class="profile-link">
         <div class="profile_image">
           <i class="iconfont icon-person"></i>
@@ -95,7 +91,13 @@
   </section>
 </template>
 <script>
-  export default {}
+  export default {
+    methods: {
+      goto (path) {
+        this.$router.push(path)
+      }
+    }
+  }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   @import '../../common/stylus/mixins.styl'
