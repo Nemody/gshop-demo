@@ -1,10 +1,10 @@
 /**
  * 管理所有路由的模块
  */
-import Msite from '../pages/Msite.vue';
-import Search from '../pages/Search.vue';
-import Order from '../pages/Order.vue';
-import Profile from '../pages/Profile.vue';
+import Msite from '../pages/Msite/Msite.vue';
+import Search from '../pages/Search/Search.vue';
+import Order from '../pages/Order/Order.vue';
+import Profile from '../pages/Profile/Profile.vue';
 
 export default [
   {

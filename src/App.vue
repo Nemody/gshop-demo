@@ -5,7 +5,7 @@
    </div>
 </template>
 <script>
-  import FooterGuide from './components/FooterGuide.vue';
+  import FooterGuide from './components/FooterGuide/FooterGuide.vue';
   export default {
     components: {
       FooterGuide
