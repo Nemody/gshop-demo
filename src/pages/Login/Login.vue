@@ -18,7 +18,7 @@
               </button>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="验证码">
+              <input type="tel" maxlength="8" placeholder="验证码" v-model="code">
             </section>
             <section class="login_hint">
               温馨提示：未注册硅谷外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -28,22 +28,22 @@
           <div :class="{on: !loginWay}">
             <section>
               <section class="login_message">
-                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名" v-model="name">
               </section>
               <section class="login_verification">
-                <input type="tel" maxlength="8" placeholder="密码">
-                <div class="switch_button off">
-                  <div class="switch_circle"></div>
-                  <span class="switch_text">...</span>
+                <input :type="isShowPwd ? 'text' : 'password'" maxlength="8" placeholder="密码" v-model="pwd">
+                <div class="switch_button" :class="isShowPwd ? 'on' : 'off'" @click="isShowPwd = !isShowPwd">
+                  <div class="switch_circle" :class="{right: isShowPwd}"></div>
+                  <span class="switch_text">{{isShowPwd ? 'abc' : ''}}</span>
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码">
+                <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
                 <img class="get_verification" src="./images/captcha.svg" alt="captcha">
               </section>
             </section>
           </div>
-          <button class="login_submit">登录</button>
+          <button class="login_submit" @click.prevent="login">登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
@@ -59,7 +59,12 @@
       return {
         loginWay: true, // true：短信登陆  false：密码登录
         phone: '', // 用户输入手机号
-        computeTime: 0 // 倒计时时间
+        computeTime: 0, // 倒计时时间
+        isShowPwd: false, // 是否显示密码 true为显示  false为隐藏
+        code: '', // 短信验证码
+        name: '', // 用户名
+        pwd: '', // 密码
+        captcha: '' // 图片验证码
       }
     },
     computed: {
@@ -77,6 +82,32 @@
             clearInterval(intervalId);
           }
         }, 1000)
+      },
+      login () {
+        // 完成前台表单验证  不用的登陆方式有不同的验证需求
+        if (this.loginWay) {
+            // 短信登录
+          if (!this.isRightPhone) {
+            // 手机号不正确
+            alert('请输入正确的11位手机号');
+          } else if (!/^\d{6}$/.test(this.code)) {
+            // 验证码不合法
+            alert('请输入短信中的6位数字验证码');
+          }
+        } else {
+          // 密码登录
+          if (!this.name.trim()) {
+            // 用户名为空
+              alert('请输入用户名，不能为空');
+          } else if (!this.pwd.trim()) {
+            // 密码为空
+            alert('请输入密码，不能为空');
+          } else if (!/^.{4}$/.test(this.captcha)) {
+            // 验证码不为4位
+            alert('请输入右侧的4位图片验证码');
+          }
+        }
+        // 发送登录请求
       }
     }
   }
@@ -172,7 +203,6 @@
                 &.on
                   background #02a774
                 >.switch_circle
-                //transform translateX(27px)
                   position absolute
                   top -1px
                   left -1px
@@ -183,6 +213,8 @@
                   background #fff
                   box-shadow 0 2px 4px 0 rgba(0,0,0,.1)
                   transition transform .3s
+                  &.right
+                    transform translateX(27px)
             .login_hint
               margin-top 12px
               color #999
