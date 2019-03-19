@@ -1,7 +1,7 @@
 <template>
   <section class="msite">
     <!--首页头部-->
-    <Header title="昌平区北七家宏福科技园(337省道北)">
+    <Header :title="address.name || '正在定位中...'">
       <router-link class="header_search" slot="search" to="/search">
         <i class="iconfont icon-sousuo"></i>
       </router-link>
@@ -9,7 +9,7 @@
         <span class="header_login_text">登录|注册</span>
       </router-link>
     </Header>
-    <header class="header">
+    <!--<header class="header">
       <span class="header_search">
         <i class="iconfont icon-sousuo"></i>
       </span>
@@ -19,109 +19,17 @@
       <span class="header_login">
         <span class="header_login_text">登录|注册</span>
       </span>
-    </header>
+    </header>-->
     <!--首页导航-->
     <nav class="msite_nav">
       <div class="swiper-container">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <a href="javascript:" class="link_to_food">
+          <div class="swiper-slide" v-for="(categories, index) in categoriesArr" :key="index">
+            <a href="javascript:" class="link_to_food" v-for="(category, index) in categories" :key="index">
               <div class="food_container">
-                <img src="./images/nav/1.jpg">
+                <img :src="baseImageUrl + category.image_url">
               </div>
-              <span>甜品饮品</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/2.jpg">
-              </div>
-              <span>商超便利</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/3.jpg">
-              </div>
-              <span>美食</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/4.jpg">
-              </div>
-              <span>简餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/5.jpg">
-              </div>
-              <span>新店特惠</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/6.jpg">
-              </div>
-              <span>准时达</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/7.jpg">
-              </div>
-              <span>预订早餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/8.jpg">
-              </div>
-              <span>土豪推荐</span>
-            </a>
-          </div>
-          <div class="swiper-slide">
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/9.jpg">
-              </div>
-              <span>甜品饮品</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/10.jpg">
-              </div>
-              <span>商超便利</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/11.jpg">
-              </div>
-              <span>美食</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/12.jpg">
-              </div>
-              <span>简餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/13.jpg">
-              </div>
-              <span>新店特惠</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/14.jpg">
-              </div>
-              <span>准时达</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/1.jpg">
-              </div>
-              <span>预订早餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/2.jpg">
-              </div>
-              <span>土豪推荐</span>
+              <span>{{category.title}}</span>
             </a>
           </div>
         </div>
@@ -134,12 +42,65 @@
   </section>
 </template>
 <script>
+  import 'swiper/dist/css/swiper.min.css';
+  import Swiper from 'swiper';
+  import {mapState} from 'vuex';
   import ShopList from '../ShopList/ShopList.vue';
   export default {
+    data () {
+      return {
+        baseImageUrl: 'https://fuss10.elemecdn.com'
+      }
+    },
     components: {
       ShopList
+    },
+    computed: {
+      ...mapState(['address', 'categories']),
+      categoriesArr () {
+        let bigArr = [];
+        let smallArr = [];
+        const {categories} = this;
+        categories.forEach(categories => {
+          // 遍历商品分类，最终生成一个二维数组
+          if (smallArr.length === 0) {
+            bigArr.push(smallArr);
+          }
+
+          smallArr.push(categories);
+
+          if (smallArr.length >= 8) {
+            smallArr = [];
+          }
+        });
+        return bigArr;
+      }
+    },
+    mounted () {
+      this.$store.dispatch('getShops');
+      this.$store.dispatch('getCategories');
+    },
+    watch: {
+      categories () {
+        this.$nextTick(() => {
+          /* eslint-disable no-new */
+          new Swiper('.swiper-container', {
+            direction: 'horizontal', // 垂直切换选项
+            loop: true, // 循环模式选项
+            /* autoplay: {
+              delay: 1000 // 1秒切换一次
+            },
+            */
+            // 如果需要分页器
+            pagination: {
+              el: '.swiper-pagination'
+            }
+          })
+        })
+      }
     }
   }
+
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   @import '../../common/stylus/mixins.styl'

@@ -5,15 +5,13 @@
    </div>
 </template>
 <script>
-  import {reqAddress} from './api'
   import FooterGuide from './components/FooterGuide/FooterGuide.vue';
   export default {
     components: {
       FooterGuide
     },
-    async mounted () {
-      const result = await reqAddress('116.36867', '40.10038');
-      console.log(result);
+    mounted () {
+     this.$store.dispatch('getAddress');
     }
   }
 </script>
