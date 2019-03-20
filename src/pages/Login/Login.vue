@@ -141,6 +141,7 @@
         } else {
             // 登录失败
           alert(result.msg);
+          this.updateCaptcha();
         }
       },
       updateCaptcha () {

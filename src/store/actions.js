@@ -4,14 +4,17 @@
 import {
   reqAddress,
   reqCategories,
-  reqShops
+  reqShops,
+  reqUserInfo,
+  reqLogout
 } from '../api';
 
 import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORIES,
   RECEIVE_SHOPS,
-  RECEIVE_USERINFO
+  RECEIVE_USERINFO,
+  RESET_USERINFO
 } from './mutation-types';
 export default {
   async getAddress ({commit, state}) {
@@ -39,5 +42,19 @@ export default {
   },
   saveUserInfo ({commit}, userInfo) {
     commit(RECEIVE_USERINFO, userInfo);
+  },
+  async getUserInfo ({commit}) {
+    const result = await reqUserInfo();
+    if (result.code === 0) {
+      commit(RECEIVE_USERINFO, result.data);
+    } else {
+      alert(result.msg);
+    }
+  },
+  async logout ({commit}) {
+    const result = await reqLogout();
+    if(result.code === 0){
+        commit(RESET_USERINFO);
+    }
   }
 }

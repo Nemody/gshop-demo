@@ -11,7 +11,10 @@
       FooterGuide
     },
     mounted () {
+      // 获取当前地址数据
      this.$store.dispatch('getAddress');
+     // 获取当前用户信息，实现自动登陆
+      this.$store.dispatch('getUserInfo');
     }
   }
 </script>
