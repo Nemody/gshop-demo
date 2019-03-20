@@ -20,3 +20,9 @@ export const reqPwdLogin = ({name, pwd, captcha}) => ajax(BASE + '/login_pwd', {
 export const reqUserInfo = () => ajax(BASE+ '/userinfo');
 // 8、用户登出
 export const reqLogout = () => ajax(BASE+ '/logout');
+// 9、获取商品分类信息
+export const reqGoods = () => ajax('/goods');
+// 10、获取商家评论信息
+export const reqRatings = () => ajax('/ratings');
+// 11、获取商家详情信息
+export const reqInfo = () => ajax('/info');

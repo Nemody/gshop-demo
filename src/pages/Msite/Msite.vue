@@ -35,7 +35,7 @@
   import 'swiper/dist/css/swiper.min.css';
   import Swiper from 'swiper';
   import {mapState} from 'vuex';
-  import ShopList from '../ShopList/ShopList.vue';
+  import ShopList from '../../components/ShopList/ShopList.vue';
   export default {
     data () {
       return {
