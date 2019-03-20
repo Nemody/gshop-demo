@@ -10,7 +10,8 @@ import {
 import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORIES,
-  RECEIVE_SHOPS
+  RECEIVE_SHOPS,
+  RECEIVE_USERINFO
 } from './mutation-types';
 export default {
   async getAddress ({commit, state}) {
@@ -35,6 +36,8 @@ export default {
     //调用commit更新状态数据
     const shops = result.data;
     commit(RECEIVE_SHOPS, {shops});
+  },
+  saveUserInfo ({commit}, userInfo) {
+    commit(RECEIVE_USERINFO, userInfo);
   }
-
 }

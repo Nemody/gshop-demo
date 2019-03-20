@@ -38,8 +38,12 @@
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                <input type="text" maxlength="11" placeholder="验证码"  v-model="captcha">
+                <img class="get_verification"
+                     src="http://localhost:5000/captcha"
+                     alt="captcha"
+                     ref="captcha"
+                     @click="updateCaptcha">
               </section>
             </section>
           </div>
@@ -54,6 +58,7 @@
   </section>
 </template>
 <script>
+  import {reqSendCode, reqPwdLogin, reqSmsLogin} from '../../api';
   export default {
     data () {
       return {
@@ -73,41 +78,73 @@
       }
     },
     methods: {
-      sendCode () {
+      async sendCode () {
        // alert('验证码已发送');
         this.computeTime = 30;
         const intervalId = setInterval(() => {
           this.computeTime--;
-          if (this.computeTime === 0) {
+          if (this.computeTime <= 0) {
+            this.computeTime = 0;
             clearInterval(intervalId);
           }
         }, 1000)
+        const result = await reqSendCode(this.phone);
+        if (result.code === 0) { // 发送成功
+            alert('验证码发送成功');
+        } else { // 发送失败
+            alert('验证码发送失败');
+            // 清除定时器，停止计时
+          this.computeTime = 0;
+        }
       },
-      login () {
+      async login () {
         // 完成前台表单验证  不用的登陆方式有不同的验证需求
-        if (this.loginWay) {
+        const {loginWay, phone, code, name, pwd, captcha} = this;
+        let result;
+        if (loginWay) {
             // 短信登录
           if (!this.isRightPhone) {
             // 手机号不正确
             alert('请输入正确的11位手机号');
-          } else if (!/^\d{6}$/.test(this.code)) {
+          } else if (!/^\d{6}$/.test(code)) {
             // 验证码不合法
             alert('请输入短信中的6位数字验证码');
           }
+          // 验证通过发送短信登陆请求
+          result = await reqSmsLogin({phone, code});
+          // 登录成功之后清除定时器，停止计时
+          if (result.code === 0) {
+              this.computeTime = 0;
+          }
         } else {
           // 密码登录
-          if (!this.name.trim()) {
+          if (!name.trim()) {
             // 用户名为空
               alert('请输入用户名，不能为空');
-          } else if (!this.pwd.trim()) {
+          } else if (!pwd.trim()) {
             // 密码为空
             alert('请输入密码，不能为空');
-          } else if (!/^.{4}$/.test(this.captcha)) {
+          } else if (!/^.{4}$/.test(captcha)) {
             // 验证码不为4位
             alert('请输入右侧的4位图片验证码');
           }
+          // 验证通过发送密码登陆请求
+          result = await reqPwdLogin({name, pwd, captcha});
         }
-        // 发送登录请求
+        // 对登录请求的结果进行处理
+        if (result.code === 0) {
+          // 登录成功
+            // 保存当前用户信息到state中
+          this.$store.dispatch('saveUserInfo', result.data);
+            // 跳转至个人中心界面
+          this.$router.replace('/profile');
+        } else {
+            // 登录失败
+          alert(result.msg);
+        }
+      },
+      updateCaptcha () {
+        this.$refs.captcha.src = `http://localhost:5000/captcha?time=${Date.now()}`;
       }
     }
   }

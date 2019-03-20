@@ -26,7 +26,6 @@ export default function ajax(url, data = {}, method = 'GET') {
         alert('请求出错：'+error.message);
       })
   })
-
 }
 
 

@@ -9,21 +9,10 @@
         <span class="header_login_text">登录|注册</span>
       </router-link>
     </Header>
-    <!--<header class="header">
-      <span class="header_search">
-        <i class="iconfont icon-sousuo"></i>
-      </span>
-      <span class="header_title">
-        <span class="header_title_text ellipsis">昌平区北七家宏福科技园(337省道北)</span>
-      </span>
-      <span class="header_login">
-        <span class="header_login_text">登录|注册</span>
-      </span>
-    </header>-->
     <!--首页导航-->
     <nav class="msite_nav">
       <div class="swiper-container">
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper" v-if="categories.length">
           <div class="swiper-slide" v-for="(categories, index) in categoriesArr" :key="index">
             <a href="javascript:" class="link_to_food" v-for="(category, index) in categories" :key="index">
               <div class="food_container">
@@ -33,6 +22,7 @@
             </a>
           </div>
         </div>
+        <img src="./images/msite_back.svg" alt="loading" v-else>
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
       </div>
@@ -82,15 +72,15 @@
     },
     watch: {
       categories () {
-        this.$nextTick(() => {
+      this.$nextTick(() => {
           /* eslint-disable no-new */
           new Swiper('.swiper-container', {
             direction: 'horizontal', // 垂直切换选项
             loop: true, // 循环模式选项
-            /* autoplay: {
-              delay: 1000 // 1秒切换一次
-            },
-            */
+           /*  autoplay: {
+             delay: 1000 // 1秒切换一次
+             },
+             */
             // 如果需要分页器
             pagination: {
               el: '.swiper-pagination'
