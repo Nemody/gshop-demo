@@ -7,7 +7,7 @@ import {
   RECEIVE_SHOPS,
   RECEIVE_USERINFO,
   RESET_USERINFO
-} from './mutation-types';
+} from '../src/store/mutation-types';
 
 export default {
     [RECEIVE_ADDRESS] (state, {address}) {

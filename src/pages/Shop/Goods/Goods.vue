@@ -1,8 +1,9 @@
 <template>
   <div>
-    goods
+    Goods
   </div>
 </template>
+
 <script>
   export default {}
 </script>

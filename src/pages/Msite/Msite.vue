@@ -46,7 +46,10 @@
       ShopList
     },
     computed: {
-      ...mapState(['address', 'categories']),
+      ...mapState({
+        address: state => state.msite.address,
+        categories: state => state.msite.categories
+      }),
       categoriesArr () {
         let bigArr = [];
         let smallArr = [];

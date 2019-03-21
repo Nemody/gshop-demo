@@ -6,7 +6,6 @@
 </template>
 <script>
   import FooterGuide from './components/FooterGuide/FooterGuide.vue';
-  import {reqInfo} from './api';
   export default {
     components: {
       FooterGuide
@@ -16,9 +15,6 @@
      this.$store.dispatch('getAddress');
      // 获取当前用户信息，实现自动登陆
       this.$store.dispatch('getUserInfo');
-
-      const result = await reqInfo();
-      console.log(result);
     }
   }
 </script>
