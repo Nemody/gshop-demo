@@ -1,8 +1,17 @@
 /**
  * shop模块
  */
-import {reqInfo} from '../../api';
-import {RECEIVE_INFO} from '../mutation-types';
+import {
+  reqInfo,
+  reqGoods,
+  reqRatings
+} from '../../api';
+import {
+  RECEIVE_INFO,
+  RECEIVE_GOODS,
+  RECEIVE_RETINGS
+} from '../mutation-types';
+
 const state = {
   goods: [], // 商品分类
   ratings: [], // 商家评价
@@ -11,7 +20,13 @@ const state = {
 const mutations = {
   [RECEIVE_INFO] (state, info) {
     state.info = info;
-  }
+  },
+  [RECEIVE_GOODS] (state, goods) {
+    state.goods = goods;
+  },
+  [RECEIVE_RETINGS] (state, ratings) {
+    state.ratings = ratings;
+  },
 };
 const actions = {
   async getInfo ({commit}) {
@@ -19,6 +34,20 @@ const actions = {
     if(result.code === 0){
         // 商家信息获取成功
       commit(RECEIVE_INFO, result.data);
+    }
+  },
+  async getGoods({commit}) {
+    const result = await reqGoods();
+    if(result.code === 0){
+      // 商品分类获取成功
+      commit(RECEIVE_GOODS, result.data);
+    }
+  },
+  async getRatings ({commit}) {
+    const result = await reqRatings();
+    if(result.code === 0){
+      // 商家评价获取成功
+      commit(RECEIVE_RETINGS, result.data);
     }
   }
 };
