@@ -12,13 +12,15 @@ import {
   RECEIVE_GOODS,
   RECEIVE_RETINGS,
   INCREMENT_FOOD_COUNT,
-  DECREMENT_FOOD_COUNT
+  DECREMENT_FOOD_COUNT,
+  CLEAR_CART_FOODS
 } from '../mutation-types';
 
 const state = {
   goods: [], // 商品分类
   ratings: [], // 商家评价
-  info: {} // 商家信息
+  info: {}, // 商家信息
+  cartFoods: [] // 保存被加入购物车的食品列表
 };
 const mutations = {
   [RECEIVE_INFO] (state, info) {
@@ -38,14 +40,21 @@ const mutations = {
       // 若无则新建并赋值为1
       // food.count = 1;
       // vue中新添加的属性不是响应式的，要借助Vue的set方法给响应式对象上添加一个响应式属性
-      Vue.set(food, 'count', 1)
+      Vue.set(food, 'count', 1);
+      state.cartFoods.push(food);
     }
   },
   [DECREMENT_FOOD_COUNT] (state, food) {
-    if (food.count) {
+    if (food.count > 0) {
       // 若已有food.count
       food.count--;
+      if (food.count === 0) {
+        state.cartFoods.splice(state.cartFoods.indexOf(food), 1);
+      }
     }
+  },
+  [CLEAR_CART_FOODS] (state) {
+    state.cartFoods = [];
   }
 };
 const actions = {
@@ -83,10 +92,21 @@ const actions = {
       // 食物数量减1
       commit(DECREMENT_FOOD_COUNT, food);
     }
+  },
+  // 清空购物车中的食品列表的同步action
+  clearCartFoods ({commit}) {
+    commit(CLEAR_CART_FOODS);
   }
 };
 const getters = {
-
+  totalCount () {
+    const {cartFoods} =state;
+    return cartFoods.reduce((pre, food) => pre + food.count , 0);
+  },
+  totalPrice () {
+    const {cartFoods} =state;
+    return cartFoods.reduce((pre, food) => pre + food.count * food.price , 0);
+  }
 };
 export default {
   state,
