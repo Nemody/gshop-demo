@@ -2,8 +2,11 @@
   <div>
     <div class="goods">
       <div class="menu-wrapper">
-        <ul>
-          <li class="menu-item current" v-for="(good, index) in goods" :key="index">
+        <ul ref="leftUl">
+          <li class="menu-item"
+              :class="{current: currentIndex === index}"
+              v-for="(good, index) in goods" :key="index"
+          @click="clickLeft(index)">
             <span class="text bottom-border-1px">
               <img class="icon" :src="good.icon" v-if="good.icon">
               {{good.name}}
@@ -12,7 +15,7 @@
         </ul>
       </div>
       <div class="foods-wrapper">
-        <ul>
+        <ul ref="rightUl">
           <li class="food-list-hook" v-for="(good, index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
@@ -58,7 +61,7 @@
               </li>
             </ul>
           </li>
-          <li class="food-list food-list-hook">
+         <!-- <li class="food-list food-list-hook">
             <h1 class="title">香浓甜粥</h1>
             <ul>
               <li class="food-item bottom-border-1px">
@@ -82,27 +85,81 @@
                 </div>
               </li>
             </ul>
-          </li>
+          </li>-->
         </ul>
       </div>
     </div>
   </div>
 </template>
-
 <script>
   import {mapState} from 'vuex';
   import BScroll from 'better-scroll';
   export default {
+    data () {
+      return {
+        scrollY: 0, // 右侧食品列表的Y轴滑动距离
+        tops: [] // 保存有每一个分类的top值
+      }
+    },
     mounted () {
-      this.$store.dispatch('getGoods');
-      /* eslint-disable no-new */
-      new BScroll('.menu-wrapper', {});
-      new BScroll('.foods-wrapper', {});
+      this.$store.dispatch('getGoods', () => {
+       this.$nextTick(() => {
+         // 在页面显示之后再创建scroll
+         this._createScroll();
+         this._getTops();
+       })
+      });
     },
     computed: {
       ...mapState({
         goods: state => state.shop.goods
-      })
+      }),
+      currentIndex () {
+        const {scrollY, tops} = this;
+        const index = tops.findIndex((top, index) => scrollY >= top && scrollY < tops[index + 1]);
+        // 每次currentIndex变化时，如果与上一次的值不同，则要让左侧的分类显示在最新的index
+        if (index !== this.index && this.leftScroll) {
+          this.index = index;
+          this.leftScroll.scrollToElement(this.$refs.leftUl.children[index], 300);
+        }
+        return index;
+      }
+    },
+    methods: {
+      _createScroll () {
+        /* eslint-disable no-new */
+        this.leftScroll = new BScroll('.menu-wrapper', {
+          click: true
+        });
+        this.rightScroll = new BScroll('.foods-wrapper', {
+          probeType: 1, // 非实时
+          click: true
+        });
+        this.rightScroll.on('scroll', ({x, y}) => {
+          this.scrollY = -y;
+        });
+        this.rightScroll.on('scrollEnd', ({x, y}) => {
+          this.scrollY = -y;
+        });
+      },
+      _getTops () {
+        const lis = this.$refs.rightUl.getElementsByClassName('food-list-hook');
+        let tops = [];
+        let top = 0;
+        tops.push(top);
+        Array.prototype.slice.call(lis).forEach((li, index) => {
+          top += li.clientHeight;
+          tops.push(top);
+        });
+
+        // 更新状态数据
+        this.tops = tops;
+      },
+      clickLeft (index) {
+        const top = this.tops[index]
+        this.scrollY = top;
+        this.rightScroll.scrollTo(0, -top, 500);
+      }
     }
   }
 </script>

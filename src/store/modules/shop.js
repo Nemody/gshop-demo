@@ -36,11 +36,12 @@ const actions = {
       commit(RECEIVE_INFO, result.data);
     }
   },
-  async getGoods({commit}) {
+  async getGoods({commit}, callback) {
     const result = await reqGoods();
     if(result.code === 0){
       // 商品分类获取成功
       commit(RECEIVE_GOODS, result.data);
+      typeof callback === 'function' && callback();
     }
   },
   async getRatings ({commit}) {
