@@ -65,6 +65,8 @@
   export default {
     mounted () {
       this.$nextTick(() => {
+        // 为了解决控制台初始显示时报错： cannot read property 'length' from undefined的问题
+        // 确认有info后再创建scroll对象实现滑动效果
         if (!this.info.name) {
           return;
         }
@@ -72,6 +74,8 @@
       })
     },
     watch: {
+      // 由于初始显示时info为空对象，所以没有创建scroll对象，所以刷新时即使info有值，也没有scroll对象来控制滑动
+      // 因此监视info的值变化，当info更新时要创建scroll对象，实现滑动
       info () {
         this._initScroll();
       }
@@ -92,7 +96,7 @@
           new BScroll('.shop-info', {
             click: true
           });
-
+          //  根据商家图片的个数来设置ul的宽度，实现滑动
           const ul = this.$refs.picUl;
           const liCount = this.info.pics.length;
           const width = 120;

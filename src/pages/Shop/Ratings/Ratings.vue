@@ -80,6 +80,7 @@
         ratings: state => state.shop.ratings,
         info: state => state.shop.info
       }),
+      // 根据ratings和用户选择的过滤条件来得到过滤后的评论数组，因此应该是一个计算属性
       filterRatings () {
         const {ratings, selectType, onlyContent} = this;
         // 与显示评论内容相关的两个因素为seleteType/onlyContent
@@ -108,9 +109,11 @@
       RatingsFilter
     },
     methods: {
+      // 供子组件中点击监听的调用来决定是否只显示有内容的评论
       toggleShowContent () {
         this.onlyContent = !this.onlyContent;
       },
+      // 供子组件中点击监听的调用来决定显示哪些类别的评论
       setSelectType (type) {
         this.selectType = type;
       }

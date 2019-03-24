@@ -2,7 +2,7 @@
  * 包含多个请求函数的对象模块
  */
 import ajax from './ajax';
-const BASE = '/api';
+const BASE = '';
 
 // 1、根据经纬度获取位置详情
 export const reqAddress = (longitude, latitude) => ajax(BASE + `/position/${latitude},${longitude}`);
