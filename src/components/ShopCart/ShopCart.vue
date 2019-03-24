@@ -88,7 +88,7 @@
       listShow () {
         // 如果总数量为0 ，直接为false不显示购物车列表
         // 解决购物车中没有食品时仍旧显示列表的问题
-        if (this.totalCount === 0){
+        if (this.totalCount === 0) {
           // 解决点击添加食品后，购物车自动打开的问题
           this.isShowCart = false;
           return false;

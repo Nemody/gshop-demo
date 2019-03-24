@@ -19,7 +19,8 @@
           <li class="food-list-hook" v-for="(good, index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item bottom-border-1px" v-for="(food, index) in good.foods" :key="index">
+              <li class="food-item bottom-border-1px" v-for="(food, index) in good.foods" :key="index"
+              @click="showFood(food)">
                 <div class="icon">
                   <img width="57" height="57"
                        :src="food.icon">
@@ -41,46 +42,25 @@
               </li>
             </ul>
           </li>
-         <!-- <li class="food-list food-list-hook">
-            <h1 class="title">香浓甜粥</h1>
-            <ul>
-              <li class="food-item bottom-border-1px">
-                <div class="icon">
-                  <img width="57" height="57" src="http://fuss10.elemecdn.com/6/72/cb844f0bb60c502c6d5c05e0bddf5jpeg.jpeg?imageView2/1/w/114/h/114">
-                </div>
-                <div class="content">
-                  <h2 class="name">红枣山药粥</h2>
-                  <p class="desc">红枣山药糙米粥,素材包</p>
-                  <div class="extra">
-                    <span class="count">月售17份</span>
-                    <span>好评率100%</span>
-                  </div>
-                  <div class="price">
-                    <span class="now">￥29</span>
-                    <span class="old">￥36</span>
-                  </div>
-                  <div class="cartcontrol-wrapper">
-                    CartControl组件
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </li>-->
         </ul>
       </div>
       <ShopCart />
     </div>
+    <!--父组件调用子组件的方法：组件标签对象就是组件对象-->
+    <Food :food="food" ref="food"/>
   </div>
 </template>
 <script>
   import {mapState} from 'vuex';
   import BScroll from 'better-scroll';
   import ShopCart from '../../../components/ShopCart/ShopCart.vue'
+  import Food from '../../../components/Food/Food.vue'
   export default {
     data () {
       return {
         scrollY: 0, // 右侧食品列表的Y轴滑动距离
-        tops: [] // 保存有每一个分类的top值
+        tops: [], // 保存有每一个分类的top值
+        food: {} // 需要显示的food
       }
     },
     mounted () {
@@ -141,10 +121,15 @@
         const top = this.tops[index]
         this.scrollY = top;
         this.rightScroll.scrollTo(0, -top, 500);
+      },
+      showFood (food) {
+        this.food = food;
+        this.$refs.food.toggleShow();
       }
     },
     components: {
-      ShopCart
+      ShopCart,
+      Food
     }
   }
 </script>

@@ -106,6 +106,13 @@ const getters = {
   totalPrice () {
     const {cartFoods} =state;
     return cartFoods.reduce((pre, food) => pre + food.count * food.price , 0);
+  },
+  // 统计总的评论数以及推荐的评论数
+  totalRatingCount () {
+    return state.ratings.length;
+  },
+  totalPositiveRatingCount () {
+    return state.ratings.reduce((pre, rating) => pre + (rating.rateType === 0 ? 1: 0), 0);
   }
 };
 export default {
