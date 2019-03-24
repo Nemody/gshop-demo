@@ -2,7 +2,7 @@
   <div class="food" v-if="isShow">
     <div class="food-content">
       <div class="image-header">
-        <img :src="food.image">
+        <img v-lazy="food.image">
         <p class="foodpanel-desc">主、辅料:水、大米、南瓜、冰糖等</p>
         <div class="back" @click="toggleShow">
           <i class="iconfont icon-arrow_left"></i>
