@@ -111,6 +111,7 @@
         MessageBox.confirm('您确认退出登录吗？')
           .then(action => {
            this.$store.dispatch('logout');
+           this.$router.replace('/login');
         });
       }
     }
@@ -118,7 +119,7 @@
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   @import '../../common/stylus/mixins.styl'
-  .profile //我的
+  .profile // 我的
     width 100%
     .header
       background-color #02a774
